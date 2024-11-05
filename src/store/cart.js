@@ -14,19 +14,32 @@ const cartSlice = createSlice({
       const updatedItemIndex = newCartItems.findIndex(
         (item) => item.id === action.payload
       );
-      console.log(updatedItemIndex);
-      if (updatedItemIndex !== -1) {
-        const updatedItem = newCartItems[updatedItemIndex];
+      const updatedItem = newCartItems[updatedItemIndex];
+      if (updatedItem) {
         updatedItem.quantity += 1;
         newCartItems[updatedItemIndex] = updatedItem;
       } else {
         const newItem = DUMMY_PRODUCTS.find(
           (product) => product.id === action.payload
         );
-        newCartItems.push(newItem);
+        newCartItems.push({ quantity: 1, ...newItem });
         state.cartItems = newCartItems;
       }
     },
+    incrementItem(state, action) {
+      const updatedCartItems = [...state.cartItems];
+      const updatedCartItemIndex = updatedCartItems.findIndex(
+        (item) => item.id === action.payload
+      );
+
+      const updatedCartItem = updatedCartItems[updatedCartItemIndex];
+      updatedCartItem.quantity += 1;
+
+      updatedCartItems[updatedCartItemIndex] = updatedCartItem;
+
+      state.cartItems = updatedCartItems;
+    },
+    decreaseItem(state) {},
   },
 });
 
