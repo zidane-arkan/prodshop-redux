@@ -4,15 +4,29 @@ import CartItem from "./CartItem";
 import { useSelector } from "react-redux";
 const Cart = (props) => {
   const isShowingModal = useSelector((state) => state.cart.isShowingModal);
+  const cartItems = useSelector((state) => state.cart.cartItems);
   return isShowingModal ? (
     <></>
   ) : (
     <Card className={classes.cart}>
       <h2>Your Shopping Cart</h2>
       <ul>
-        <CartItem
-          item={{ title: "Test Item", quantity: 3, total: 18, price: 6 }}
-        />
+        {cartItems.length > 0 ? (
+          cartItems.map((item) => {
+            return (
+              <CartItem
+                item={{
+                  title: item.title,
+                  quantity: item.quantity,
+                  total: item.quantity * item.price,
+                  price: item.price,
+                }}
+              />
+            );
+          })
+        ) : (
+          <p>No Item, Add now!</p>
+        )}
       </ul>
     </Card>
   );
