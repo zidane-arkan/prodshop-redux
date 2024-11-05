@@ -12,10 +12,12 @@ const Cart = (props) => {
       <h2>Your Shopping Cart</h2>
       <ul>
         {cartItems.length > 0 ? (
-          cartItems.map((item) => {
+          cartItems.map((item, id) => {
             return (
               <CartItem
+                key={id}
                 item={{
+                  id: item.id,
                   title: item.title,
                   quantity: item.quantity,
                   total: item.quantity * item.price,
