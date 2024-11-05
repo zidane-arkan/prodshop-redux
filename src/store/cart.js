@@ -11,11 +11,11 @@ const cartSlice = createSlice({
     },
     addItems(state, action) {
       const newCartItems = [...state.cartItems];
-
       const updatedItemIndex = newCartItems.findIndex(
         (item) => item.id === action.payload
       );
-      if (updatedItemIndex) {
+      console.log(updatedItemIndex);
+      if (updatedItemIndex !== -1) {
         const updatedItem = newCartItems[updatedItemIndex];
         updatedItem.quantity += 1;
         newCartItems[updatedItemIndex] = updatedItem;
@@ -24,6 +24,7 @@ const cartSlice = createSlice({
           (product) => product.id === action.payload
         );
         newCartItems.push(newItem);
+        state.cartItems = newCartItems;
       }
     },
   },
