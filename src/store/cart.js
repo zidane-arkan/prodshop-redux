@@ -45,9 +45,13 @@ const cartSlice = createSlice({
       );
 
       const updatedCartItem = updatedCartItems[updatedCartItemIndex];
-      updatedCartItem.quantity -= 1;
+      if (updatedCartItem.quantity > 1) {
+        updatedCartItem.quantity -= 1;
+        updatedCartItems[updatedCartItemIndex] = updatedCartItem;
+      } else {
+        updatedCartItems.splice(updatedCartItem, 1);
+      }
 
-      updatedCartItems[updatedCartItemIndex] = updatedCartItem;
       state.cartItems = updatedCartItems;
     },
   },
