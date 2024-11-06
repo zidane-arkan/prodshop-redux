@@ -36,10 +36,24 @@ const cartSlice = createSlice({
       updatedCartItem.quantity += 1;
 
       updatedCartItems[updatedCartItemIndex] = updatedCartItem;
+      state.cartItems = updatedCartItems;
+    },
+    decreaseItem(state, action) {
+      const updatedCartItems = [...state.cartItems];
+      const updatedCartItemIndex = updatedCartItems.findIndex(
+        (item) => item.id === action.payload
+      );
+
+      const updatedCartItem = updatedCartItems[updatedCartItemIndex];
+      if (updatedCartItem.quantity > 1) {
+        updatedCartItem.quantity -= 1;
+        updatedCartItems[updatedCartItemIndex] = updatedCartItem;
+      } else {
+        updatedCartItems.splice(updatedCartItem, 1);
+      }
 
       state.cartItems = updatedCartItems;
     },
-    decreaseItem(state) {},
   },
 });
 
