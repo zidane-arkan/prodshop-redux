@@ -8,6 +8,10 @@ const CartItem = (props) => {
   const incrementItem = (id) => {
     dispatch(cartActions.incrementItem(id));
   };
+
+  const decreaseItem = (id) => {
+    dispatch(cartActions.decreaseItem(id));
+  };
   return (
     <li className={classes.item}>
       <header>
@@ -22,7 +26,7 @@ const CartItem = (props) => {
           x <span>{quantity}</span>
         </div>
         <div className={classes.actions}>
-          <button>-</button>
+          <button onClick={() => decreaseItem(id)}>-</button>
           <button onClick={() => incrementItem(id)}>+</button>
         </div>
       </div>
