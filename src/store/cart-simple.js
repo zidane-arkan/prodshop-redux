@@ -21,7 +21,17 @@ const cartSliceSimple = createSlice({
       } else {
         existingItem.quantity++;
         existingItem.totalPrice += existingItem.price;
-        state.cartItems.push(existingItem);
+      }
+    },
+    reduceItemInCart(state, action) {
+      const existingItem = state.cartItems.find(
+        (item) => item.id === action.payload
+      );
+      console.log(existingItem);
+      existingItem.quantity--;
+      existingItem.totalPrice -= existingItem.price;
+      if (existingItem.quantity < 1) {
+        state.cartItems.splice(existingItem, 1);
       }
     },
   },

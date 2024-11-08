@@ -6,7 +6,9 @@ const CartButton = (props) => {
   const dispatcher = useDispatch();
   const handleToggleModal = () => dispatcher(uiSliceActions.toggleCart());
 
-  const cartItemsLength = useSelector((state) => state.cart.cartItems.length);
+  const cartItemsLength = useSelector(
+    (state) => state.cartSimple.cartItems.length
+  );
   return (
     <button className={classes.button} onClick={handleToggleModal}>
       <span>My Cart</span>

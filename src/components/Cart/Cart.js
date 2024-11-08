@@ -3,16 +3,14 @@ import classes from "./Cart.module.css";
 import CartItem from "./CartItem";
 import { useSelector } from "react-redux";
 const Cart = (props) => {
-  const isShowingModal = useSelector((state) => state.cart.isShowingModal);
-  const cartItems = useSelector((state) => state.cart.cartItems);
-  return isShowingModal ? (
-    <></>
-  ) : (
+  // const cartItems = useSelector((state) => state.cart.cartItems);
+  const cartSimpleItems = useSelector((state) => state.cartSimple.cartItems);
+  return (
     <Card className={classes.cart}>
       <h2>Your Shopping Cart</h2>
       <ul>
-        {cartItems.length > 0 ? (
-          cartItems.map((item, id) => {
+        {cartSimpleItems.length > 0 ? (
+          cartSimpleItems.map((item, id) => {
             return (
               <CartItem
                 key={id}
@@ -20,7 +18,7 @@ const Cart = (props) => {
                   id: item.id,
                   title: item.title,
                   quantity: item.quantity,
-                  total: item.quantity * item.price,
+                  total: item.totalPrice,
                   price: item.price,
                 }}
               />
