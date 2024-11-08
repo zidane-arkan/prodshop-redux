@@ -5,8 +5,11 @@ import { cartActions } from "../../store/cart";
 const CartItem = (props) => {
   const { id, title, quantity, total, price } = props.item;
   const dispatch = useDispatch();
+  // const incrementItem = (id) => {
+  //   dispatch(cartActions.incrementItem(id));
+  // };
   const incrementItem = (id) => {
-    dispatch(cartActions.incrementItem(id));
+    dispatch(cartActions.incrementItem({ ...props.item }));
   };
 
   const decreaseItem = (id) => {
