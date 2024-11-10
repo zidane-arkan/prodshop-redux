@@ -27,11 +27,15 @@ const cartSliceSimple = createSlice({
       const existingItem = state.cartItems.find(
         (item) => item.id === action.payload
       );
-      console.log(existingItem);
+      // const existingItemIndex = state.cartItems.findIndex(
+      //   (item) => item.id === action.payload
+      // );
       existingItem.quantity--;
       existingItem.totalPrice -= existingItem.price;
       if (existingItem.quantity < 1) {
-        state.cartItems.splice(existingItem, 1);
+        state.cartItems = state.cartItems.filter(
+          (item) => item.id !== existingItem.id
+        );
       }
     },
   },
