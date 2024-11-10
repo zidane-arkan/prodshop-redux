@@ -8,6 +8,12 @@ const productSlice = createSlice({
     getProducts(state) {
       state.productItems = [...state.productItems];
     },
+    removeProduct(state, action) {
+      const existingProduct = state.productItems.find(
+        (product) => product.id === action.id
+      );
+      state.productItems.splice(existingProduct, 1);
+    },
   },
 });
 
