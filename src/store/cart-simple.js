@@ -12,7 +12,6 @@ const cartSliceSimple = createSlice({
     },
     addItemToCart(state, action) {
       const newItem = action.payload;
-      console.log(newItem);
       const existingItem = state.cartItems.find(
         (item) => item.id === newItem.items.id
       );
@@ -65,7 +64,7 @@ export const getAllCartData = () => {
     };
     try {
       const cartData = await fetchData();
-      // console.log(cartData);
+      dispatcher(cartSimpleActions.replaceCart(cartData));
     } catch (error) {
       dispatcher(
         uiSliceActions.handleNotification({

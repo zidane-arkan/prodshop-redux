@@ -3,7 +3,7 @@ import Cart from "./components/Cart/Cart";
 import Layout from "./components/Layout/Layout";
 import Products from "./components/Shop/Products";
 import Notification from "./components/UI/Notification";
-import { sendCartData } from "./store/cart-simple";
+import { sendCartData, getAllCartData } from "./store/cart-simple";
 import { Fragment, useEffect } from "react";
 
 let isInitial = true;
@@ -14,7 +14,6 @@ function App() {
   const notificationStatus = useSelector(
     (state) => state.ui.notificationStatus
   );
-  console.log(notificationStatus);
 
   // useEffect(() => {
   //   const sentCartData = async () => {
@@ -59,6 +58,9 @@ function App() {
   //     );
   //   });
   // }, [cartItems, dispatcher]);
+  useEffect(() => {
+    dispatcher(getAllCartData());
+  }, [dispatcher]);
 
   useEffect(() => {
     // const dispatchSendCartData = sendCartData(cartItems);
