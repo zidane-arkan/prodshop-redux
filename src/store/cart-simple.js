@@ -6,19 +6,25 @@ const cartSliceSimple = createSlice({
   name: "cartSimple",
   initialState: initalCartState,
   reducers: {
+    replaceCart(state, action) {
+      state.totalQuantity = action.payload.totalQuantity;
+      state.cartItems = action.payload.cartItems;
+    },
     addItemToCart(state, action) {
       const newItem = action.payload;
+      console.log(newItem);
       const existingItem = state.cartItems.find(
-        (item) => item.id === newItem.id
+        (item) => item.id === newItem.items.id
       );
       if (!existingItem) {
         state.cartItems.push({
-          id: newItem.id,
-          title: newItem.title,
+          id: newItem.items.id,
+          title: newItem.items.title,
           quantity: 1,
-          price: newItem.price,
-          totalPrice: newItem.price,
+          price: newItem.items.price,
+          totalPrice: newItem.items.price,
         });
+        state.totalQuantity += 1;
       } else {
         existingItem.quantity++;
         existingItem.totalPrice += existingItem.price;
@@ -41,6 +47,36 @@ const cartSliceSimple = createSlice({
     },
   },
 });
+
+export const getAllCartData = () => {
+  return async (dispatcher) => {
+    const fetchData = async () => {
+      const res = await fetch(
+        "https://prodshop-redux-default-rtdb.asia-southeast1.firebasedatabase.app/cart.json",
+        {
+          method: "GET",
+        }
+      );
+      if (!res.ok) {
+        throw new Error("An error occured! Gets Cart Data Failed!");
+      }
+      const data = await res.json();
+      return data;
+    };
+    try {
+      const cartData = await fetchData();
+      // console.log(cartData);
+    } catch (error) {
+      dispatcher(
+        uiSliceActions.handleNotification({
+          status: "error",
+          title: "Error Occured...",
+          message: error.message,
+        })
+      );
+    }
+  };
+};
 
 export const sendCartData = (cartItems) => {
   return async (dispatcher) => {
