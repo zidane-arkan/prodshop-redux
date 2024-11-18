@@ -9,7 +9,7 @@ const CartItem = (props) => {
   //   dispatch(cartActions.incrementItem(id));
   // };
   const incrementItem = () => {
-    dispatch(cartSimpleActions.addItemToCart({ ...props.item }));
+    dispatch(cartSimpleActions.addItemToCart({ items: { ...props.item } }));
   };
 
   const decreaseItem = (id) => {

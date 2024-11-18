@@ -3,60 +3,71 @@ import Cart from "./components/Cart/Cart";
 import Layout from "./components/Layout/Layout";
 import Products from "./components/Shop/Products";
 import Notification from "./components/UI/Notification";
-import { uiSliceActions } from "./store/ui";
+import { sendCartData } from "./store/cart-simple";
 import { Fragment, useEffect } from "react";
 
 let isInitial = true;
 function App() {
   const dispatcher = useDispatch();
   const isCartVisible = useSelector((state) => state.ui.isCartVisible);
-  const cartItems = useSelector((state) => state.cartSimple.cartItems);
+  const cartItems = useSelector((state) => state.cartSimple);
   const notificationStatus = useSelector(
     (state) => state.ui.notificationStatus
   );
   console.log(notificationStatus);
+
+  // useEffect(() => {
+  //   const sentCartData = async () => {
+  //     dispatcher(
+  //       uiSliceActions.handleNotification({
+  //         status: "pending",
+  //         title: "Pending...",
+  //         message: "Pending sending data...",
+  //       })
+  //     );
+  //     const res = await fetch(
+  //       "https://prodshop-redux-default-rtdb.asia-southeast1.firebasedatabase.app/cart.json",
+  //       {
+  //         body: JSON.stringify(cartItems),
+  //         method: "PUT",
+  //       }
+  //     );
+  //     if (!res.ok) {
+  //       throw new Error("An error occured! Sending Cart Data Failed!");
+  //     }
+  //     const responseData = await res.json();
+  //     dispatcher(
+  //       uiSliceActions.handleNotification({
+  //         status: "success",
+  //         title: "Success...",
+  //         message: "Successfully sending data.",
+  //       })
+  //     );
+  //     return responseData;
+  //   };
+  //   if (isInitial) {
+  //     isInitial = false;
+  //     return;
+  //   }
+  //   sentCartData().catch((error) => {
+  //     dispatcher(
+  //       uiSliceActions.handleNotification({
+  //         status: "error",
+  //         title: "Error Occured...",
+  //         message: error.message,
+  //       })
+  //     );
+  //   });
+  // }, [cartItems, dispatcher]);
+
   useEffect(() => {
-    const sentCartData = async () => {
-      dispatcher(
-        uiSliceActions.handleNotification({
-          status: "pending",
-          title: "Pending...",
-          message: "Pending sending data...",
-        })
-      );
-      const res = await fetch(
-        "https://prodshop-redux-default-rtdb.asia-southeast1.firebasedatabase.app/cart.json",
-        {
-          body: JSON.stringify(cartItems),
-          method: "PUT",
-        }
-      );
-      if (!res.ok) {
-        throw new Error("An error occured! Sending Cart Data Failed!");
-      }
-      const responseData = await res.json();
-      dispatcher(
-        uiSliceActions.handleNotification({
-          status: "success",
-          title: "Success...",
-          message: "Successfully sending data...",
-        })
-      );
-      return responseData;
-    };
+    // const dispatchSendCartData = sendCartData(cartItems);
     if (isInitial) {
       isInitial = false;
       return;
     }
-    sentCartData().catch((error) => {
-      dispatcher(
-        uiSliceActions.handleNotification({
-          status: "error",
-          title: "Error Occured...",
-          message: error.message,
-        })
-      );
-    });
+    dispatcher(sendCartData(cartItems));
+    // dispatchSendCartData(dispatcher);
   }, [cartItems, dispatcher]);
   return (
     <Fragment>
