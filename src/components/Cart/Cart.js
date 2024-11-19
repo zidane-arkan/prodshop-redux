@@ -10,7 +10,7 @@ const Cart = (props) => {
     <Card className={classes.cart}>
       <h2>Your Shopping Cart</h2>
       <ul>
-        {cartSimpleItems.length > 0 && cartSimpleItems !== undefined ? (
+        {cartSimpleItems.length > 0 ? (
           cartSimpleItems.map((item, id) => {
             return (
               <CartItem

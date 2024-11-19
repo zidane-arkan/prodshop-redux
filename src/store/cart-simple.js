@@ -13,9 +13,9 @@ const cartSliceSimple = createSlice({
     },
     addItemToCart(state, action) {
       const newItem = action.payload;
-      if (state.cartItems === undefined) {
-        state.cartItems = [];
-      }
+      // if (state.cartItems === undefined) {
+      //   state.cartItems = [];
+      // }
       const existingItem = state.cartItems.find(
         (item) => item.id === newItem.items.id
       );
@@ -71,7 +71,12 @@ export const getAllCartData = () => {
     };
     try {
       const cartData = await fetchData();
-      dispatcher(cartSimpleActions.replaceCart(cartData));
+      dispatcher(
+        cartSimpleActions.replaceCart({
+          ...cartData,
+          cartItems: cartData.cartItems || [],
+        })
+      );
     } catch (error) {
       dispatcher(
         uiSliceActions.handleNotification({
