@@ -13,6 +13,9 @@ const cartSliceSimple = createSlice({
     },
     addItemToCart(state, action) {
       const newItem = action.payload;
+      if (state.cartItems === undefined) {
+        state.cartItems = [];
+      }
       const existingItem = state.cartItems.find(
         (item) => item.id === newItem.items.id
       );
@@ -44,6 +47,7 @@ const cartSliceSimple = createSlice({
         state.cartItems = state.cartItems.filter(
           (item) => item.id !== existingItem.id
         );
+        state.totalQuantity -= 1;
       }
       state.changed = true;
     },
@@ -80,7 +84,7 @@ export const getAllCartData = () => {
   };
 };
 
-export const sendCartData = (cartItems) => {
+export const sendCartData = (cart) => {
   return async (dispatcher) => {
     dispatcher(
       uiSliceActions.handleNotification({
@@ -93,7 +97,10 @@ export const sendCartData = (cartItems) => {
       const res = await fetch(
         "https://prodshop-redux-default-rtdb.asia-southeast1.firebasedatabase.app/cart.json",
         {
-          body: JSON.stringify(cartItems),
+          body: JSON.stringify({
+            cartItems: cart.cartItems,
+            totalQuantity: cart.totalQuantity,
+          }),
           method: "PUT",
         }
       );
