@@ -4,12 +4,11 @@ import classes from "./Cart.module.css";
 import CartItem from "./CartItem";
 import { useSelector } from "react-redux";
 import { getAllCartData } from "../../store/cart-simple";
+import { useEffect } from "react";
+let initialFetch = true;
 const Cart = (props) => {
-  const dispatcher = useDispatch();
   // const cartItems = useSelector((state) => state.cart.cartItems);
   const cartSimpleItems = useSelector((state) => state.cartSimple.cartItems);
-  // dispatcher(getAllCartData());
-  console.log(cartSimpleItems);
   return (
     <Card className={classes.cart}>
       <h2>Your Shopping Cart</h2>
